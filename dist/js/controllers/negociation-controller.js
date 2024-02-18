@@ -1,14 +1,17 @@
+import { AllNegociations } from "../models/allNegociations.js";
 import { Negociation } from "../models/negociation.js";
 export class NegociationController {
     constructor() {
+        this.allNegociations = new AllNegociations();
         this.inputDate = document.querySelector("#data");
         this.inputQuantity = document.querySelector("#quantidade");
         this.inputValue = document.querySelector("#valor");
     }
     add() {
         const negociation = this.createNegociation();
+        this.allNegociations.add(negociation);
         this.clearForm();
-        console.log(negociation);
+        console.log(this.allNegociations.showNegociations());
     }
     createNegociation() {
         const regularExpression = /-/g;
