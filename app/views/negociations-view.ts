@@ -2,7 +2,7 @@ import { AllNegociations } from "../models/allNegociations.js";
 import { View } from "./view.js";
 
 export class NegociationsView extends View<AllNegociations> {
-  template(allNegociations: AllNegociations): string {
+  protected template(allNegociations: AllNegociations): string {
     return `
         <table class="table table-hover table-bordered">
             <thead>
@@ -18,9 +18,7 @@ export class NegociationsView extends View<AllNegociations> {
                   .map((negociation) => {
                     return `
                         <tr>
-                            <td>${new Intl.DateTimeFormat().format(
-                              negociation.date
-                            )}</td>
+                            <td>${this.formatDate(negociation.date)}</td>
                             <td>${negociation.quantity}</td>
                             <td>${negociation.value}</td>
                         </tr>
@@ -32,7 +30,7 @@ export class NegociationsView extends View<AllNegociations> {
         `;
   }
 
-  update(allNegociations: AllNegociations): void {
-    this.element.innerHTML = this.template(allNegociations);
+  private formatDate(date: Date): string {
+    return new Intl.DateTimeFormat().format(date);
   }
 }
