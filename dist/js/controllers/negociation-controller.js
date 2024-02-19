@@ -8,13 +8,13 @@ export class NegociationController {
         this.inputDate = document.querySelector("#data");
         this.inputQuantity = document.querySelector("#quantidade");
         this.inputValue = document.querySelector("#valor");
-        this.negociationsView.update();
+        this.negociationsView.update(this.allNegociations);
     }
     add() {
         const negociation = this.createNegociation();
         this.allNegociations.add(negociation);
+        this.negociationsView.update(this.allNegociations);
         this.clearForm();
-        console.log(this.allNegociations.showNegociations());
     }
     createNegociation() {
         const regularExpression = /-/g;
