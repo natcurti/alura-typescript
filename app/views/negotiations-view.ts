@@ -1,8 +1,8 @@
-import { AllNegociations } from "../models/allNegociations.js";
+import { AllNegotiations } from "../models/allNegotiations.js";
 import { View } from "./view.js";
 
-export class NegociationsView extends View<AllNegociations> {
-  protected template(allNegociations: AllNegociations): string {
+export class NegotiationsView extends View<AllNegotiations> {
+  protected template(allNegotiations: AllNegotiations): string {
     return `
         <table class="table table-hover table-bordered">
             <thead>
@@ -13,14 +13,14 @@ export class NegociationsView extends View<AllNegociations> {
                 </tr>
             </thead>
             <tbody>
-                ${allNegociations
-                  .showNegociations()
-                  .map((negociation) => {
+                ${allNegotiations
+                  .showNegotiations()
+                  .map((negotiation) => {
                     return `
                         <tr>
-                            <td>${this.formatDate(negociation.date)}</td>
-                            <td>${negociation.quantity}</td>
-                            <td>${negociation.value}</td>
+                            <td>${this.formatDate(negotiation.date)}</td>
+                            <td>${negotiation.quantity}</td>
+                            <td>${negotiation.value}</td>
                         </tr>
                     `;
                   })

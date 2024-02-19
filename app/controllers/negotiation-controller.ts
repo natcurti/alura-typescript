@@ -1,14 +1,14 @@
-import { AllNegociations } from "../models/allNegociations.js";
-import { Negociation } from "../models/negociation.js";
+import { AllNegotiations } from "../models/allNegotiations.js";
+import { Negotiation } from "../models/negotiation.js";
 import { MessageView } from "../views/message-view.js";
-import { NegociationsView } from "../views/negociations-view.js";
+import { NegotiationsView } from "../views/negotiations-view.js";
 
-export class NegociationController {
+export class NegotiationController {
   private inputDate: HTMLInputElement;
   private inputQuantity: HTMLInputElement;
   private inputValue: HTMLInputElement;
-  private allNegociations = new AllNegociations();
-  private negociationsView = new NegociationsView("#negociations-view");
+  private allNegotiations = new AllNegotiations();
+  private negotiationsView = new NegotiationsView("#negotiations-view");
   private messageView = new MessageView("#message-view");
   private readonly SATURDAY: number = 6;
   private readonly SUNDAY: number = 0;
@@ -17,25 +17,26 @@ export class NegociationController {
     this.inputDate = document.querySelector("#data");
     this.inputQuantity = document.querySelector("#quantidade");
     this.inputValue = document.querySelector("#valor");
-    this.negociationsView.update(this.allNegociations);
+    this.negotiationsView.update(this.allNegotiations);
   }
 
   public add() {
-    const negociation = this.createNegociation();
-    if (!this.isBusinessDay(negociation.date)) {
+    const negotiation = this.createNegotiation();
+    if (!this.isBusinessDay(negotiation.date)) {
       this.messageView.update("Apenas negociações em dias úteis são aceitas.");
+    } else {
+      this.allNegotiations.add(negotiation);
+      this.clearForm();
+      this.updateView();
     }
-    this.allNegociations.add(negociation);
-    this.clearForm();
-    this.updateView();
   }
 
-  private createNegociation(): Negociation {
+  private createNegotiation(): Negotiation {
     const regularExpression = /-/g;
     const date = new Date(this.inputDate.value.replace(regularExpression, ","));
     const quantity = parseInt(this.inputQuantity.value);
     const value = parseFloat(this.inputValue.value);
-    return new Negociation(date, quantity, value);
+    return new Negotiation(date, quantity, value);
   }
 
   private clearForm(): void {
@@ -47,7 +48,7 @@ export class NegociationController {
 
   private updateView(): void {
     this.messageView.update("Negociação adicionada com sucesso!");
-    this.negociationsView.update(this.allNegociations);
+    this.negotiationsView.update(this.allNegotiations);
   }
 
   private isBusinessDay(date: Date): boolean {
