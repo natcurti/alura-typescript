@@ -13,4 +13,16 @@ export class Negotiation {
   get volume() {
     return this.quantity * this.value;
   }
+
+  public static createNegotiation(
+    dateString: string,
+    quantityString: string,
+    valueString: string
+  ): Negotiation {
+    const regularExpression = /-/g;
+    const date = new Date(dateString.replace(regularExpression, ","));
+    const quantity = parseInt(quantityString);
+    const value = parseFloat(valueString);
+    return new Negotiation(date, quantity, value);
+  }
 }
