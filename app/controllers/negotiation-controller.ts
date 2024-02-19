@@ -1,3 +1,4 @@
+import { DaysOfWeek } from "../enums/days-of-week.js";
 import { AllNegotiations } from "../models/allNegotiations.js";
 import { Negotiation } from "../models/negotiation.js";
 import { MessageView } from "../views/message-view.js";
@@ -10,8 +11,6 @@ export class NegotiationController {
   private allNegotiations = new AllNegotiations();
   private negotiationsView = new NegotiationsView("#negotiations-view");
   private messageView = new MessageView("#message-view");
-  private readonly SATURDAY: number = 6;
-  private readonly SUNDAY: number = 0;
 
   constructor() {
     this.inputDate = document.querySelector("#data");
@@ -52,6 +51,8 @@ export class NegotiationController {
   }
 
   private isBusinessDay(date: Date): boolean {
-    return date.getDay() > this.SUNDAY && date.getDay() < this.SATURDAY;
+    return (
+      date.getDay() > DaysOfWeek.SUNDAY && date.getDay() < DaysOfWeek.SATURDAY
+    );
   }
 }
