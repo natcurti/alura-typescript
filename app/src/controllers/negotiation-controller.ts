@@ -1,8 +1,9 @@
 import { domInjector } from "../decorators/dom-injector.js";
-import { executionTime } from "../decorators/executionTime.js";
+import { executionTime } from "../decorators/execution-time.js";
 import { DaysOfWeek } from "../enums/days-of-week.js";
-import { AllNegotiations } from "../models/allNegotiations.js";
+import { AllNegotiations } from "../models/all-negotiations.js";
 import { Negotiation } from "../models/negotiation.js";
+import { NegotiationsService } from "../services/negotiations-services.js";
 import { MessageView } from "../views/message-view.js";
 import { NegotiationsView } from "../views/negotiations-view.js";
 
@@ -16,6 +17,7 @@ export class NegotiationController {
   private allNegotiations = new AllNegotiations();
   private negotiationsView = new NegotiationsView("#negotiations-view");
   private messageView = new MessageView("#message-view");
+  private service = new NegotiationsService();
 
   constructor() {
     this.negotiationsView.update(this.allNegotiations);
@@ -35,6 +37,15 @@ export class NegotiationController {
       this.clearForm();
       this.updateView();
     }
+  }
+
+  public importData(): void {
+    this.service.getNegotiationsToday().then((negotiationsToday) => {
+      for (let negotiation of negotiationsToday) {
+        this.allNegotiations.add(negotiation);
+      }
+      this.negotiationsView.update(this.allNegotiations);
+    });
   }
 
   private clearForm(): void {

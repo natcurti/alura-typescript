@@ -1,4 +1,4 @@
-import { executionTime } from "../decorators/executionTime.js";
+import { executionTime } from "../decorators/execution-time.js";
 import { inspect } from "../decorators/inspect.js";
 
 export abstract class View<T> {

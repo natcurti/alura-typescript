@@ -5,10 +5,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { domInjector } from "../decorators/dom-injector.js";
-import { executionTime } from "../decorators/executionTime.js";
+import { executionTime } from "../decorators/execution-time.js";
 import { DaysOfWeek } from "../enums/days-of-week.js";
-import { AllNegotiations } from "../models/allNegotiations.js";
+import { AllNegotiations } from "../models/all-negotiations.js";
 import { Negotiation } from "../models/negotiation.js";
+import { NegotiationsService } from "../services/negotiations-services.js";
 import { MessageView } from "../views/message-view.js";
 import { NegotiationsView } from "../views/negotiations-view.js";
 export class NegotiationController {
@@ -16,6 +17,7 @@ export class NegotiationController {
         this.allNegotiations = new AllNegotiations();
         this.negotiationsView = new NegotiationsView("#negotiations-view");
         this.messageView = new MessageView("#message-view");
+        this.service = new NegotiationsService();
         this.negotiationsView.update(this.allNegotiations);
     }
     add() {
@@ -28,6 +30,14 @@ export class NegotiationController {
             this.clearForm();
             this.updateView();
         }
+    }
+    importData() {
+        this.service.getNegotiationsToday().then((negotiationsToday) => {
+            for (let negotiation of negotiationsToday) {
+                this.allNegotiations.add(negotiation);
+            }
+            this.negotiationsView.update(this.allNegotiations);
+        });
     }
     clearForm() {
         this.inputDate.value = "";
