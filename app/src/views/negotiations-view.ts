@@ -1,7 +1,9 @@
+import { escape } from "../decorators/escape.js";
 import { AllNegotiations } from "../models/allNegotiations.js";
 import { View } from "./view.js";
 
 export class NegotiationsView extends View<AllNegotiations> {
+  @escape
   protected template(allNegotiations: AllNegotiations): string {
     return `
         <table class="table table-hover table-bordered">

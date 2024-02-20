@@ -4,6 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+import { domInjector } from "../decorators/dom-injector.js";
 import { executionTime } from "../decorators/executionTime.js";
 import { DaysOfWeek } from "../enums/days-of-week.js";
 import { AllNegotiations } from "../models/allNegotiations.js";
@@ -15,9 +16,6 @@ export class NegotiationController {
         this.allNegotiations = new AllNegotiations();
         this.negotiationsView = new NegotiationsView("#negotiations-view");
         this.messageView = new MessageView("#message-view");
-        this.inputDate = document.querySelector("#data");
-        this.inputQuantity = document.querySelector("#quantidade");
-        this.inputValue = document.querySelector("#valor");
         this.negotiationsView.update(this.allNegotiations);
     }
     add() {
@@ -45,6 +43,15 @@ export class NegotiationController {
         return (date.getDay() > DaysOfWeek.SUNDAY && date.getDay() < DaysOfWeek.SATURDAY);
     }
 }
+__decorate([
+    domInjector("#data")
+], NegotiationController.prototype, "inputDate", void 0);
+__decorate([
+    domInjector("#quantidade")
+], NegotiationController.prototype, "inputQuantity", void 0);
+__decorate([
+    domInjector("#valor")
+], NegotiationController.prototype, "inputValue", void 0);
 __decorate([
     executionTime()
 ], NegotiationController.prototype, "add", null);
