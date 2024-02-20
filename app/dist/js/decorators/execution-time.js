@@ -15,3 +15,4 @@ export function executionTime(seconds = false) {
         };
     };
 }
+//# sourceMappingURL=execution-time.js.map

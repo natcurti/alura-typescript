@@ -4,6 +4,7 @@ import { DaysOfWeek } from "../enums/days-of-week.js";
 import { AllNegotiations } from "../models/all-negotiations.js";
 import { Negotiation } from "../models/negotiation.js";
 import { NegotiationsService } from "../services/negotiations-services.js";
+import { print } from "../utils/print.js";
 import { MessageView } from "../views/message-view.js";
 import { NegotiationsView } from "../views/negotiations-view.js";
 
@@ -37,15 +38,25 @@ export class NegotiationController {
       this.clearForm();
       this.updateView();
     }
+    print(negotiation, this.allNegotiations);
   }
 
   public importData(): void {
-    this.service.getNegotiationsToday().then((negotiationsToday) => {
-      for (let negotiation of negotiationsToday) {
-        this.allNegotiations.add(negotiation);
-      }
-      this.negotiationsView.update(this.allNegotiations);
-    });
+    this.service
+      .getNegotiationsToday()
+      .then((negotiationsToday) => {
+        return negotiationsToday.filter((todayNegotiation) => {
+          return !this.allNegotiations
+            .showNegotiations()
+            .some((item) => item.isEqual(todayNegotiation));
+        });
+      })
+      .then((negotiationsToday) => {
+        for (let negotiation of negotiationsToday) {
+          this.allNegotiations.add(negotiation);
+        }
+        this.negotiationsView.update(this.allNegotiations);
+      });
   }
 
   private clearForm(): void {
